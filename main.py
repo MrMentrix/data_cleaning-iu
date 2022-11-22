@@ -1,29 +1,40 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
-data = pd.read_csv("airbnb_data.csv")
+# reading the (original) data
+df = pd.read_csv("airbnb_data.csv")
 
-# renaming all columns into one snake case
-data.columns = data.columns.str.lower().str.replace(" ", "_")
+# REFERENCE: "2.2 Exploring the data"
+# renaming all columns into one snake_case format
+df.columns = df.columns.str.lower().str.replace(" ", "_")
+# saves a renamed version of the original data so working with it is a bit easier
+# df.to_csv("airbnb_data_renamed.csv", index=False)
+
+# REFERENCE: "2.2.2 Impossible value ranges" | visualization/minimum_nights.py for visualization code | figures/minimum_nights.png for figure
+# putting all values of minimum_nights into the range of 1-30
+df["minimum_nights"] = df["minimum_nights"].apply(lambda x: 1 if x < 1 else 30 if x > 30 else x)
+
+# REFERENCE: "2.2.3 Mixed data types"
+# converting all values of price and service_fee to floats
+df["price"] = df["price"].str.replace("$", "").str.replace(",", "").astype(float)
+df["service_fee"] = df["service_fee"].str.replace("$", "").str.replace(",", "").astype(float)
+
+"""HERE"""
+
+for col in df.columns:
+    types = []
+    for i in df[col]:
+        if type(i) not in types:
+            types.append(type(i))
+    print(col, types)
+
+exit()
 
 # removing all duplicate rows, based on apartment ID
-data.drop_duplicates(subset=["id"], inplace=True)
-
-# putting all values of minimum_nights into the range of 0-30
-data["minimum_nights"] = data["minimum_nights"].apply(lambda x: 0 if x < 0 else 30 if x > 30 else x)
-
-# relevant columns
-relevant_columns = ["id", "neighbourhood_group", "neighbourhood", "room_type", "construction_year", "price", "service_fee", "review_rate_number"]
-
-# getting the subset of the data, with only the relevant columns
-df = data[relevant_columns]
+df.drop_duplicates(subset=["id"], inplace=True)
 
 # dropping all rows with missing values
 df = df.dropna()
-
-# set all prices to be integers, removing all "$" and "," characters. This will throw a FutureWarning, but it's ok
-df["price"] = df["price"].str.replace("$", "").str.replace(",", "").astype(int)
-df["service_fee"] = df["service_fee"].str.replace("$", "").str.replace(",", "").astype(int)
 
 # set all construction years and review rate numbers to be integers
 df["construction_year"] = df["construction_year"].astype(int)

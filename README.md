@@ -1,5 +1,6 @@
 # data_cleaning-iu
 Data cleaning task for IU.
+Dataset: https://www.kaggle.com/datasets/arianazmoudeh/airbnbopendata
 
 ## Phase 1 - Getting an overview of the data
 # General formatting of columns
