@@ -1,12 +1,12 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
-data = pd.read_csv("airbnb_data_renamed.csv")
+df = pd.read_csv("airbnb_data_renamed.csv")
 
 plt.style.use("seaborn")
 
 # plot a histogram of minimum_nights
-data.minimum_nights.plot(kind="hist", range=(0, 60), bins=30)
+df.minimum_nights.plot(kind="hist", range=(0, 60), bins=30)
 
 plt.title("Distribution of minimum_nights", fontsize=20)
 plt.xlabel("Number of Nights", fontsize=16)
