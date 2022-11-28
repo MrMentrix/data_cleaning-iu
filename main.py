@@ -109,14 +109,10 @@ df["review_rate_number"].fillna(3, inplace=True)
 # fill all missing availability_365 values with 0
 df["availability_365"] = df["availability_365"].fillna(0)
 
-print(df["calculated_host_listings_count"])
-print(df.isna().sum())
-exit()
+# fill all missing calculated_host_listings_count values with 1
+df["calculated_host_listings_count"] = df["calculated_host_listings_count"].fillna(1)
 
-# dropping all rows with missing values
-df = df.dropna()
-
-df.to_csv("airbnb_data_cleaned.csv", index=False)
+df.to_csv("airbnb_data_cleaned.csv", index=False) # saving the cleaned data to a new csv file
 
 """Sample Use Cases"""
 
